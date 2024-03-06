@@ -1,15 +1,14 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, ValidationPipe } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { AuthService } from "./auth.service";
-import { UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "./jwt/AuthGuard";
+
 @Controller()
 export class AuthController {
     
     constructor(private readonly authService: AuthService) { }
 
     @Post('/register')
-    register(@Body() createUserDto: CreateUserDto) {
+    register(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
         return this.authService.register(createUserDto);
 
     }

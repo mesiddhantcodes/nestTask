@@ -8,20 +8,20 @@ import { AuthModule } from './auth/auth.module';
 // import { JwtAuthService } from './auth/jwt/jwt.service';
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.local' })],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('POSTGRE_HOST'),
-        port: configService.get<number>('POSTGRE_PORT'),
-        username: configService.get('POSTGRE_USER'),
-        password: configService.get('POSTGRE_PASSWORD'),
-        database: configService.get('POSTGRE_DB'),
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
-      inject: [ConfigService],
+    TypeOrmModule.forRoot({
+      type : 'postgres',
+      host : 'localhost',
+      port : 5432,
+      username : 'postgres',
+      password : '2002',
+      database : 'postgres',
+      synchronize : true,
+      autoLoadEntities : true,
+      logging : true
     }),
+
+
+
     AuthModule],
   controllers: [],
   providers: [],
