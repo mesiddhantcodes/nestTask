@@ -5,6 +5,7 @@ import { In, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import * as brcypt from 'bcryptjs';
 import { JwtAuthService } from "./jwt/jwt.service";
+import { UpdateUserDto } from "./dto/update-user.dto";
 @Injectable()
 export class AuthService {
     constructor(@InjectRepository(Auth) private authRepository: Repository<Auth>, private readonly jwtAuthService: JwtAuthService) { }
@@ -33,7 +34,7 @@ export class AuthService {
 
 
 
-    async login(username: string, password: string): Promise<{ user: Auth,token:string } | { error: string }> {
+    async login(username: string, password: string): Promise<{ user: Auth, token: string } | { error: string }> {
         const ifUserExist = await this.authRepository.findOne({ where: { username: username } });
         if (!ifUserExist) {
             return { error: "User not found" };
@@ -45,12 +46,42 @@ export class AuthService {
             const token = await this.jwtAuthService.generateToken(ifUserExist);
             console.log(token)
 
-            return { user: ifUserExist,token:token }
+            return { user: ifUserExist, token: token }
         }
         else {
             return { error: "Invalid password" };
         }
 
+    }
+    // want to update the user information
+    async updateUser(username: string, updateUserDto: UpdateUserDto): Promise<{ message: string, user: Auth }> {
+        // console.log("username service", username);
+        // const user = await this.authRepository.findAndUpdate(username);
+        // const user = await this.authRepository.findOne({ where: { username: username } });
+        // the above line is not owrking so we will use the below line
+        const user = await this.authRepository.findOneBy({ username: username });
+        
+        console.log("user", user);
+        if (!user) {
+            return { message: 'User not found', user: null };
+        }
+        if (updateUserDto.name) {
+            user.name = updateUserDto.name;
+        }
+        if (updateUserDto.email) {
+            user.email = updateUserDto.email;
+        }
+        if (updateUserDto.phone) {
+            user.phone = updateUserDto.phone;
+        }
+        if (updateUserDto.role) {
+            user.role = updateUserDto.role;
+        }
+        // return the updated user
+
+        await this.authRepository.save(user); // Save the updated user
+
+        return { message: 'User updated successfully', user: user };
     }
 
 }

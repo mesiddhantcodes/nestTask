@@ -2,13 +2,14 @@ import { IsEmail, Length, Min, Validate } from "class-validator";
 import { IsStrongPasswordConstraint } from "../validator/auth.validator";
 
 export class CreateUserDto {
+    
     @Length(8, 20, { message: 'Name must be between 8 and 20 characters    ' })
     username: string;
 
     @Validate(IsStrongPasswordConstraint)
     password: string;
 
-    @Length(8, 20, { message: 'Name must be between 8 and 20 characters    ' })
+    // @Length(8, 20, { message: 'Name must be between 8 and 20 characters    ' })
     name: string;
 
     @IsEmail({}, { message: 'Invalid email' })
