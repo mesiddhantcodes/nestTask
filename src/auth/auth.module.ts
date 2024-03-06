@@ -5,12 +5,12 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtAuthService } from "./jwt/jwt.service";
 import { JwtModule } from "@nestjs/jwt";
-// import { jwtModule } from "./jwt/jwt.module";
+
 
 
 @Module({
     imports: [TypeOrmModule.forFeature([Auth]), JwtModule.register({
-        secret: "maikyubatau",
+        secret: "qwertyuiopasdfghjklzxcvbnm1234567890",
         signOptions: {
             expiresIn: "600s"
         }
