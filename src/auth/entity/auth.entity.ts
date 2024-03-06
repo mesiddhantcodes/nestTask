@@ -1,4 +1,5 @@
 import { IsEmail, Length, Min, Validate, min } from "class-validator";
+import { OneToMany } from "typeorm";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 // import { IsStrongPasswordConstraint } from "../validator/auth.validator";
 
@@ -29,4 +30,8 @@ export class Auth {
     @Column()
     @Length(3, 20, { message: 'Role must be between 3 and 20 characters' })
     role: string;
+
+    // want a token to return 
+    // @Column()
+    // token: string;
 }

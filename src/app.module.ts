@@ -5,23 +5,24 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
 import { Auth } from './auth/entity/auth.entity';
 import { AuthModule } from './auth/auth.module';
+// import { JwtAuthService } from './auth/jwt/jwt.service';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.local.env' })],
+      imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.local' })],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('POSTGRE_HOST'),
         port: configService.get<number>('POSTGRE_PORT'),
         username: configService.get('POSTGRE_USER'),
-        password: configService.get<string>('POSTGRE_PASSWORD'),
+        password: configService.get('POSTGRE_PASSWORD'),
         database: configService.get('POSTGRE_DB'),
         autoLoadEntities: true,
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-  AuthModule,],
+    AuthModule],
   controllers: [],
   providers: [],
 })
