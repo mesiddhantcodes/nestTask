@@ -81,4 +81,17 @@ export class AuthService {
         return { message: 'User updated successfully', user: user };
     }
 
+    async getAllUsers(): Promise<Auth[]> {
+        return this.authRepository.find();
+    }
+
+    async deleteUser(username: string): Promise<{ message: string }> {
+        const user = await this.authRepository.findOne({ where: { username: username } });
+        if (!user) {
+            return { message: 'User not found' };
+        }
+        await this.authRepository.remove(user);
+        return { message: 'User deleted successfully' };
+    }
+
 }
