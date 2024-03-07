@@ -53,12 +53,9 @@ export class AuthService {
         }
 
     }
-    // want to update the user information
+    
     async updateUser(username: string, updateUserDto: UpdateUserDto): Promise<{ message: string, user: Auth }> {
-        // console.log("username service", username);
-        // const user = await this.authRepository.findAndUpdate(username);
-        // const user = await this.authRepository.findOne({ where: { username: username } });
-        // the above line is not owrking so we will use the below line
+      
         const user = await this.authRepository.findOneBy({ username: username });
         
         console.log("user", user);
